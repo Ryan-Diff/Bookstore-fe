@@ -27,8 +27,8 @@ class App extends React.Component {
               this.state.books.map((book) => {
                 return <div className="book-item">
                   <div>Name : {book.title}</div>
-                  <div>Id : {book.genre}</div>
-                  <div>Age : {book.inventory}</div>
+                  <div>Genre : {book.genre}</div>
+                  <div>Stock : {book.inventory}</div>
                   <div>Is available : {book.is_available ? 'Yes' : 'No'} </div>
                 </div>
               })

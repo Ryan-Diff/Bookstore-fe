@@ -1,26 +1,46 @@
 import React from 'react';
-import logo from './logo.svg';
+import { fetchBooks } from './book-api.js';
 import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends React.Component {
+  state = {
+    books: []
+  }
+
+  componentDidMount = async () => {
+    const data = await fetchBooks()
+
+    this.setState({
+      books: data.body
+    })
+  }
+
+  render() {
+    return (
+      <div className="App">
+        <header>
+          Diffen-Books
+        </header>
+        <section className="book-shelf">
+          <div className="container">
+            {
+              this.state.books.map((book) => {
+                return <div className="book-item">
+                  <div>Name : {book.title}</div>
+                  <div>Id : {book.genre}</div>
+                  <div>Age : {book.inventory}</div>
+                  <div>Is available : {book.is_available ? 'Yes' : 'No'} </div>
+                </div>
+              })
+            }
+          </div>
+        </section>
+      </div>
+    );
+  }
+
 }
+
+
 
 export default App;

@@ -1,43 +1,55 @@
 import React from 'react';
-import { fetchBooks } from './book-api.js';
 import './App.css';
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  Link
+} from 'react-router-dom';
+import ListPage from './ListPage.js';
+import DetailPage from './DetailPage.js';
+import CreatePage from './CreatePage.js';
 
 class App extends React.Component {
-  state = {
-    books: []
-  }
-
-  componentDidMount = async () => {
-    const data = await fetchBooks()
-
-    this.setState({
-      books: data.body
-    })
-  }
-
   render() {
     return (
       <div className="App">
         <header>
           Diffen-Books
         </header>
-        <section className="book-shelf">
-          <div className="container">
-            {
-              this.state.books.map((book) => {
-                return <div className="book-item">
-                  <div>Name : {book.title}</div>
-                  <div>Genre : {book.genre}</div>
-                  <div>Stock : {book.inventory}</div>
-                  <div>Is available : {book.is_available ? 'Yes' : 'No'} </div>
-                </div>
-              })
-            }
+        <Router>
+
+          <div className="sidebar">
+              <ul>
+                  <li className='nav'><Link to='/'>Inventory</Link></li>
+                  <li className='nav'><Link to='/create'>Admin</Link></li> 
+              </ul>
           </div>
-        </section>
-      </div>
-    );
-  }
+          <div>
+          <Switch>
+              <Route 
+                  path="/" 
+                  exact
+                  render={(routerProps) => <ListPage {...routerProps} />} 
+              />
+              <Route 
+                  path="/create" 
+                  exact
+                  render={(routerProps) => <CreatePage {...routerProps} />} 
+              />
+              <Route 
+                  path="/detail/:id" 
+                  exact
+                  render={(routerProps) => <DetailPage {...routerProps} />} 
+              />
+          </Switch>
+          </div>
+          
+          </Router>
+  
+  </div>
+);
+}
 
 }
 

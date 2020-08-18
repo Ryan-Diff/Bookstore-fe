@@ -13,6 +13,8 @@ componentDidMount = async () => {
     this.setState({
         books: data.body
     })
+
+
 }
 render() {
     return (
@@ -24,7 +26,7 @@ render() {
                     <div className='book-item'>
                     <ul>
                     <li>Title: {book.title}</li>  
-                    <li>Genre: {book.genre}</li>
+                    <li>Genre: {book.genre_id}</li>
                     <li>{book.inventory} available</li>
                     <li>{book.is_available ? 'yes' : 'no'}</li>
                     </ul>

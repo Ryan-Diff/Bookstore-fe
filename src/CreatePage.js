@@ -1,13 +1,23 @@
 import React, { Component } from 'react'
-import { addBook } from './book-api.js';
+import { addBook, fetchGenres } from './book-api.js';
 import './App.css';
 
 export default class CreatePage extends Component {
     state = {
         title: '',
-        genre: '',
+        genre_id: 1,
         inventory: 0,
         is_available: true,
+        genres: [],
+    }
+
+    componentDidMount=async () => {
+        const genreData = await fetchGenres();
+
+        this.setState({
+            genres: genreData.body
+        })
+
     }
 
     handleSubmit = async (e) => {
@@ -15,14 +25,14 @@ export default class CreatePage extends Component {
 
         await addBook({
             title: this.state.title,
-            genre: this.state.genre,
+            genre_id: this.state.genre_id,
             inventory: this.state.inventory,
             is_available: this.state.is_available,
         });
 
         this.setState({
         title: 'Day Hiking: Columbia River Gorge',
-        genre: 'Guidebook',
+        genre_id: 4,
         inventory: 5,
         is_available: true,
         })
@@ -35,7 +45,7 @@ export default class CreatePage extends Component {
     }
 
     handleGenreChange = e => {
-        this.setState({ genre: e.target.value});
+        this.setState({ genre_id: e.target.value});
     }
 
     handleInventoryChange = e => {
@@ -58,13 +68,9 @@ export default class CreatePage extends Component {
                     <label>
                         Genre: 
                         <select onChange={this.handleGenreChange} value={this.state.genre}>
-                            <option value="fiction">Fiction</option>
-                            <option value="non-fiction">Non-Fiction</option>
-                            <option value="fantasy">Fantasy</option>
-                            <option value="cooking">Cooking</option>
-                            <option value="self-help">Self-Help</option>
-                            <option value="guidebook">Guidebook</option>
-                            <option value="thriller">Thriller</option>
+                        {
+                            this.state.genres.map((genre) => <option value={genre.id}>{genre.type}</option>)
+                        }
                         </select>
                     </label>
                     <label>

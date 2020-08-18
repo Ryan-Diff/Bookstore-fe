@@ -15,3 +15,11 @@ export function fetchBook(id) {
 export function addBook(bookData) {
     return request.post(`${URL}/books`, bookData)
 }
+
+export function fetchGenres() {
+    return request.get(`${URL}/genres`);
+}
+
+export function deleteBook(id) {
+    return request.delete(`${URL}/books/${id}`);
+}
